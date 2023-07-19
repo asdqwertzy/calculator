@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(226, 226, 226);
+    background-color: rgb(236, 236, 236);
+    
 }
 
 input {
@@ -7,6 +8,9 @@ input {
     height:70px;
     font-size: 40px;
     width:650px;
+    background-color: rgb(236, 236, 236);
+    border:none;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
 
 button {
@@ -18,6 +22,8 @@ button {
     height:60px;
     font-weight:450;
     font-size:16px;
+    border-radius: 2px;
+    font-family: Helvetica;
 }
 
 .calculator-body { 
@@ -49,7 +55,7 @@ button {
 .memorybuttons button {
     width: 80px;
     height:30px;
-    background-color: rgb(226, 226, 226);
+    background-color: rgb(236, 236, 236);
 
 }
 
@@ -68,4 +74,17 @@ button:hover {
 .lighter:hover {
     background-color:rgb(245, 245, 245);
 
+}
+
+.blue {
+    background-color:rgb(0, 78, 141);
+    color:white;
+}
+
+.blue:hover {
+    background-color:rgb(0, 87, 158);
+}
+
+.bigger {
+    font-size:20px;
 }
