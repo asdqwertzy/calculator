@@ -16,10 +16,18 @@ document.addEventListener("keydown", function (event) {
         }
     }
     if (event.key == "Escape") {
+
         inputF.value = ""
     }
     if (event.key == "Backspace") {
+        event.preventDefault();
         inputF.focus()
-
+        document.querySelector("#backspace").classList.add("active");
     }
 })
+
+document.addEventListener("keyup", function (event) {
+    if (event.key == "Backspace") {
+        document.querySelector("#backspace").classList.remove("active");
+    }
+});

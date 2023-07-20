@@ -65,12 +65,21 @@ button:hover {
 }
 
 button:active {
-    filter: brightness(98%);
+    background-color: rgb(230, 230, 230);
+}
+button.active {
+    background-color: rgb(230, 230, 230);
 }
 
+
 .memorybuttons button:hover {
-    background-color: rgb(206, 206, 206);
+    background-color: rgb(223, 223, 223);
 }
+
+.memorybuttons button:active {
+    background-color: rgb(217, 217, 217);
+}
+
 
 .lighter {
     background-color: rgb(252, 252, 252);
@@ -80,6 +89,9 @@ button:active {
     background-color: rgb(245, 245, 245);
 }
 
+.lighter:active {
+    background-color: rgb(240, 240, 240);
+}
 .blue {
     background-color: rgb(0, 78, 141);
     color: white;
