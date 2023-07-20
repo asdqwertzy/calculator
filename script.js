@@ -8,3 +8,11 @@ inputF.addEventListener("input", function(event) {
     event.target.value = thousandsSeperator;
 }); 
 
+
+document.addEventListener("keydown", function(event) {
+    if (event.key.match(/[0-9]/)) {
+        if (document.activeElement !== inputF) {
+            inputF.focus()
+            }
+    }
+})
