@@ -1,5 +1,25 @@
-var inputF = document.querySelector("input")
+const inputF = document.querySelector("input")
 
+const buttonIDMap = {
+    "Escape": "c",
+    "Backspace": "backspace",
+    "Enter": "equals",
+    "1": "_1",
+    "2": "_2",
+    "3": "_3",
+    "4": "_4",
+    "5": "_5",
+    "6": "_6",
+    "7": "_7",
+    "8": "_8",
+    "9": "_9",
+    "0": "_0",
+    ".": "comma",
+    "+": "plus",
+    "-": "minus",
+    "*": "multiplication",
+    "/": "division",
+  };
 
 
 inputF.addEventListener("input", function (event) {
@@ -10,24 +30,33 @@ inputF.addEventListener("input", function (event) {
 
 
 document.addEventListener("keydown", function (event) {
-    if (event.key.match(/[0-9]/)) {
+    const key = event.key;
+    if (key.match(/[0-9]/)) {
         if (document.activeElement !== inputF) {
             inputF.focus()
         }
     }
-    if (event.key == "Escape") {
+    if (key == "Escape") {
 
         inputF.value = ""
     }
-    if (event.key == "Backspace") {
+    if (key == "Backspace") {
         event.preventDefault();
         inputF.focus()
         document.querySelector("#backspace").classList.add("active");
     }
+      if (key in buttonIDMap) {
+        const buttonId = buttonIDMap[key];
+        const button = document.querySelector(`#${buttonId}`);
+        button.classList.add("active");
+      }
 })
 
 document.addEventListener("keyup", function (event) {
-    if (event.key == "Backspace") {
-        document.querySelector("#backspace").classList.remove("active");
+    const key = event.key;
+    if (key in buttonIDMap) {
+      const buttonId = buttonIDMap[key];
+      const button = document.querySelector(`#${buttonId}`);
+      button.classList.remove("active");
     }
 });
