@@ -23,9 +23,20 @@ const buttonIDMap = {
 
 
 inputF.addEventListener("input", function (event) {
-    event.target.value = inputF.value.replace(/\D/g, "");
-    var thousandsSeperator = inputF.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    event.target.value = thousandsSeperator;
+    event.target.value = inputF.value.replace(/[^\d.]/g, "");
+    var decimalCount = event.target.value.split(".").length - 1;
+    if (decimalCount > 1) {
+      var parts = event.target.value.split(".");
+      event.target.value = parts[0] + parts.splice(1).join("");
+    }
+    if (event.target.value.match(/^0\d/)) {
+      event.target.value = event.target.value.slice(1);
+    }
+    
+    const decimalIndex = event.target.value.indexOf(".");
+    const integerPart = decimalIndex !== -1 ? event.target.value.slice(0, decimalIndex) : event.target.value;
+    const thousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    event.target.value = thousandsSeparator + (decimalIndex !== -1 ? event.target.value.slice(decimalIndex) : "");
 });
 
 
@@ -37,19 +48,24 @@ document.addEventListener("keydown", function (event) {
         }
     }
     if (key == "Escape") {
-
         inputF.value = ""
     }
     if (key == "Backspace") {
-        event.preventDefault();
         inputF.focus()
         document.querySelector("#backspace").classList.add("active");
+    }
+    if (key == ".")
+    {
+      if (inputF.value.includes(".")) {
+        event.preventDefault();
+      }
     }
       if (key in buttonIDMap) {
         const buttonId = buttonIDMap[key];
         const button = document.querySelector(`#${buttonId}`);
         button.classList.add("active");
       }
+
 })
 
 document.addEventListener("keyup", function (event) {
