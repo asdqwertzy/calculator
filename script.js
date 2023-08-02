@@ -82,20 +82,20 @@ document.addEventListener("keydown", function (event) {
     operatorPressed = true;
     if (!secondOperand == "" & !firstOperand == "") {
       firstOperand = result;
-      secondOperand = inputF.value
-      result = firstOperand + parseInt(secondOperand.replace(/,/g, ""))
+      secondOperand = parseInt(inputF.value.replace(/,/g, ""))
+      result = firstOperand + secondOperand
       inputF.value = "0"
       inputF.value = result
 
     }
     if (secondOperand == "") {
       if (!firstOperand == "") {
-        secondOperand = inputF.value
-        result = parseInt(firstOperand.replace(/,/g, "")) + parseInt(secondOperand.replace(/,/g, ""))
+        secondOperand = parseInt(inputF.value.replace(/,/g, ""))
+        result = firstOperand + secondOperand
         inputF.value = "0"
         inputF.value = result
       }
-      else { firstOperand = inputF.value; operator = "+"; }
+      else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "+"; }
     }
   }
 })
