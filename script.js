@@ -81,6 +81,11 @@ document.addEventListener("keydown", function (event) {
   if (key == "+") {
     operatorPressed = true;
     if (!secondOperand == "" & !firstOperand == "") {
+      firstOperand = result;
+      secondOperand = inputF.value
+      result = firstOperand + parseInt(secondOperand.replace(/,/g, ""))
+      inputF.value = "0"
+      inputF.value = result
 
     }
     if (secondOperand == "") {
