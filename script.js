@@ -100,7 +100,7 @@ document.addEventListener("keydown", function (event) {
   }
   if (key == "+") {
     operatorPressed = true;
-    if (!secondOperand == "" & !firstOperand == "") {
+    if (!secondOperand == "" & !firstOperand == "" | firstOperand == 0) {
       firstOperand = result;
       secondOperand = parseInt(inputF.value.replace(/,/g, ""))
       result = firstOperand + secondOperand
@@ -123,7 +123,7 @@ document.addEventListener("keydown", function (event) {
   if (key == "-") {
     operatorPressed = true;
     event.preventDefault()
-    if (!secondOperand == "" & !firstOperand == "") {
+    if (!secondOperand == "" & !firstOperand == "" | firstOperand == 0) {
       firstOperand = result;
       secondOperand = parseInt(inputF.value.replace(/,/g, ""))
       result = firstOperand - secondOperand
