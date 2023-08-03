@@ -4,7 +4,7 @@ var secondOperand = ""
 var operator = ""
 var result = ""
 var operatorPressed = false;
-var newValue = false;
+var newValue = true;
 
 inputF.value = "0"
 
@@ -79,6 +79,7 @@ document.addEventListener("keydown", function (event) {
     result = ""
     operatorPressed = false
     operator = ""
+    newValue = true;
   }
   if (key == "Enter") {
     event.preventDefault();
