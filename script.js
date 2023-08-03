@@ -28,6 +28,21 @@ const buttonIDMap = {
   "/": "division",
 };
 
+function addThousandsSeparator(value) {
+  value = value.toString();
+  const decimalIndex = value.indexOf(".");
+  let integerPart = decimalIndex !== -1 ? value.slice(0, decimalIndex) : value;
+  let minusSign = "";
+
+  if (integerPart.startsWith("-")) {
+    minusSign = "-";
+    integerPart = integerPart.slice(1);
+  }
+
+  const thousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return minusSign + thousandsSeparator + (decimalIndex !== -1 ? value.slice(decimalIndex) : "");
+}
+
 
 inputF.addEventListener("input", function (event) {
   event.target.value = inputF.value.replace(/[^\d.-]/g, "");
@@ -41,10 +56,9 @@ inputF.addEventListener("input", function (event) {
   }
 
   // Thousands seperator functionality, only for integer part of input and not for decimal part
-  const decimalIndex = event.target.value.indexOf(".");
-  const integerPart = decimalIndex !== -1 ? event.target.value.slice(0, decimalIndex) : event.target.value;
-  const thousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  event.target.value = thousandsSeparator + (decimalIndex !== -1 ? event.target.value.slice(decimalIndex) : "");
+
+  
+  event.target.value = addThousandsSeparator(event.target.value);
 });
 
 
@@ -63,6 +77,12 @@ document.addEventListener("keydown", function (event) {
     inputF.value = "0"
     firstOperand = ""
     secondOperand = ""
+    result = ""
+    operatorPressed = false
+    operator = ""
+  }
+  if (key == "Enter") {
+    event.preventDefault();
   }
   if (key == "Backspace") {
     inputF.focus()
@@ -85,7 +105,7 @@ document.addEventListener("keydown", function (event) {
       secondOperand = parseInt(inputF.value.replace(/,/g, ""))
       result = firstOperand + secondOperand
       inputF.value = "0"
-      inputF.value = result
+      inputF.value = addThousandsSeparator(result)
       operator = "+"
 
     }
@@ -94,7 +114,7 @@ document.addEventListener("keydown", function (event) {
         secondOperand = parseInt(inputF.value.replace(/,/g, ""))
         result = firstOperand + secondOperand
         inputF.value = "0"
-        inputF.value = result
+        inputF.value = addThousandsSeparator(result)
         operator = "+"
       }
       else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "+"; }
@@ -108,7 +128,7 @@ document.addEventListener("keydown", function (event) {
       secondOperand = parseInt(inputF.value.replace(/,/g, ""))
       result = firstOperand - secondOperand
       inputF.value = "0"
-      inputF.value = result
+      inputF.value = addThousandsSeparator(result)
       operator = "-"
     }
     if (secondOperand == "") {
@@ -116,7 +136,7 @@ document.addEventListener("keydown", function (event) {
         secondOperand = parseInt(inputF.value.replace(/,/g, ""))
         result = firstOperand - secondOperand
         inputF.value = "0"
-        inputF.value = result
+        inputF.value = addThousandsSeparator(result)
         operator = "-"
       }
       else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "-"; }
