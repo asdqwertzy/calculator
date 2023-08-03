@@ -4,6 +4,7 @@ var secondOperand = ""
 var operator = ""
 var result = ""
 var operatorPressed = false;
+var newValue = false;
 
 inputF.value = "0"
 
@@ -55,9 +56,6 @@ inputF.addEventListener("input", function (event) {
     event.target.value = event.target.value.slice(1);
   }
 
-  // Thousands seperator functionality, only for integer part of input and not for decimal part
-
-  
   event.target.value = addThousandsSeparator(event.target.value);
 });
 
@@ -68,6 +66,7 @@ document.addEventListener("keydown", function (event) {
     if (operatorPressed) {
       inputF.value = ""
       operatorPressed = false;
+      newValue = true;
     }
     if (document.activeElement !== inputF) {
       inputF.focus()
@@ -100,46 +99,59 @@ document.addEventListener("keydown", function (event) {
   }
   if (key == "+") {
     operatorPressed = true;
-    if (!secondOperand == "" & !firstOperand == "" | firstOperand == 0) {
-      firstOperand = result;
-      secondOperand = parseInt(inputF.value.replace(/,/g, ""))
-      result = firstOperand + secondOperand
-      inputF.value = "0"
-      inputF.value = addThousandsSeparator(result)
+    if (!newValue) {
       operator = "+"
-
     }
-    if (secondOperand == "") {
-      if (!firstOperand == "") {
+    else {
+      if (!secondOperand == "" & !firstOperand == "") {
+        firstOperand = result;
         secondOperand = parseInt(inputF.value.replace(/,/g, ""))
         result = firstOperand + secondOperand
         inputF.value = "0"
         inputF.value = addThousandsSeparator(result)
         operator = "+"
+        newValue = false;
       }
-      else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "+"; }
+      if (secondOperand == "") {
+        if (!firstOperand == "") {
+          secondOperand = parseInt(inputF.value.replace(/,/g, ""))
+          result = firstOperand + secondOperand
+          inputF.value = "0"
+          inputF.value = addThousandsSeparator(result)
+          operator = "+"
+          newValue = false;
+        }
+        else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "+"; }
+      }
     }
   }
   if (key == "-") {
-    operatorPressed = true;
     event.preventDefault()
-    if (!secondOperand == "" & !firstOperand == "" | firstOperand == 0) {
-      firstOperand = result;
-      secondOperand = parseInt(inputF.value.replace(/,/g, ""))
-      result = firstOperand - secondOperand
-      inputF.value = "0"
-      inputF.value = addThousandsSeparator(result)
-      operator = "-"
+    operatorPressed = true;
+    if (!newValue) {
+      operator = "+"
     }
-    if (secondOperand == "") {
-      if (!firstOperand == "") {
+    else {
+      if (!secondOperand == "" & !firstOperand == "") {
+        firstOperand = result;
         secondOperand = parseInt(inputF.value.replace(/,/g, ""))
         result = firstOperand - secondOperand
         inputF.value = "0"
         inputF.value = addThousandsSeparator(result)
         operator = "-"
+        newValue = false;
       }
-      else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "-"; }
+      if (secondOperand == "") {
+        if (!firstOperand == "") {
+          secondOperand = parseInt(inputF.value.replace(/,/g, ""))
+          result = firstOperand - secondOperand
+          inputF.value = "0"
+          inputF.value = addThousandsSeparator(result)
+          operator = "-"
+          newValue = false;
+        }
+        else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "-"; }
+      }
     }
   }
 })
