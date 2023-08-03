@@ -30,7 +30,7 @@ const buttonIDMap = {
 
 
 inputF.addEventListener("input", function (event) {
-  event.target.value = inputF.value.replace(/[^\d.]/g, "");
+  event.target.value = inputF.value.replace(/[^\d.-]/g, "");
   var decimalCount = event.target.value.split(".").length - 1;
   if (decimalCount > 1) {
     var parts = event.target.value.split(".");
@@ -86,6 +86,7 @@ document.addEventListener("keydown", function (event) {
       result = firstOperand + secondOperand
       inputF.value = "0"
       inputF.value = result
+      operator = "+"
 
     }
     if (secondOperand == "") {
@@ -94,8 +95,31 @@ document.addEventListener("keydown", function (event) {
         result = firstOperand + secondOperand
         inputF.value = "0"
         inputF.value = result
+        operator = "+"
       }
       else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "+"; }
+    }
+  }
+  if (key == "-") {
+    operatorPressed = true;
+    event.preventDefault()
+    if (!secondOperand == "" & !firstOperand == "") {
+      firstOperand = result;
+      secondOperand = parseInt(inputF.value.replace(/,/g, ""))
+      result = firstOperand - secondOperand
+      inputF.value = "0"
+      inputF.value = result
+      operator = "-"
+    }
+    if (secondOperand == "") {
+      if (!firstOperand == "") {
+        secondOperand = parseInt(inputF.value.replace(/,/g, ""))
+        result = firstOperand - secondOperand
+        inputF.value = "0"
+        inputF.value = result
+        operator = "-"
+      }
+      else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "-"; }
     }
   }
 })
