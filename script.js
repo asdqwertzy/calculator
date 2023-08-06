@@ -66,7 +66,7 @@ function handleOperator(key) {
   } else {
     if (!secondOperand == "" && !firstOperand == "") {
       firstOperand = result;
-      secondOperand = parseInt(inputF.value.replace(/,/g, ""));
+      secondOperand = parseFloat(inputF.value.replace(/,/g, ""));
       result = calculateResult(firstOperand, secondOperand, operator);
       inputF.value = "0";
       inputF.value = addThousandsSeparator(result);
@@ -75,14 +75,14 @@ function handleOperator(key) {
     }
     if (secondOperand == "") {
       if (!firstOperand == "") {
-        secondOperand = parseInt(inputF.value.replace(/,/g, ""));
+        secondOperand = parseFloat(inputF.value.replace(/,/g, ""));
         result = calculateResult(firstOperand, secondOperand, operator);
         inputF.value = "0";
         inputF.value = addThousandsSeparator(result);
         operator = key;
         newValue = false;
       } else {
-        firstOperand = parseInt(inputF.value.replace(/,/g, ""));
+        firstOperand = parseFloat(inputF.value.replace(/,/g, ""));
         operator = key;
       }
     }
@@ -128,16 +128,16 @@ document.addEventListener("keydown", function (event) {
   if (key == "Enter") {
     event.preventDefault();
     if (!firstOperand == "" && !operator == "" && secondOperand == "") {
-      result = calculateResult(parseInt(firstOperand), parseInt(inputF.value), operator)
+      result = calculateResult(parseFloat(firstOperand), parseFloat(inputF.value), operator)
+      secondOperand = parseFloat(inputF.value);
       inputF.value = addThousandsSeparator(result);
-      secondOperand = firstOperand;
       firstOperand = result;
       newValue = false;
     }
     else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
-      result = calculateResult(parseInt(firstOperand), parseInt(secondOperand), operator)
+      result = calculateResult(parseFloat(firstOperand), parseFloat(secondOperand), operator)
       inputF.value = addThousandsSeparator(result);
-      firstOperand = parseInt(result);
+      firstOperand = parseFloat(result);
       newValue = false;
     }
   }
