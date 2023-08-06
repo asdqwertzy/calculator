@@ -44,6 +44,50 @@ function addThousandsSeparator(value) {
   return minusSign + thousandsSeparator + (decimalIndex !== -1 ? value.slice(decimalIndex) : "");
 }
 
+function calculateResult(firstOperand, secondOperand, operator) {
+  switch (operator) {
+    case "+":
+      return firstOperand + secondOperand;
+    case "-":
+      return firstOperand - secondOperand;
+    case "*":
+      return firstOperand * secondOperand;
+    case "/":
+      return firstOperand / secondOperand;
+    default:
+      return "";
+  }
+}
+
+function handleOperator(key) {
+  operatorPressed = true;
+  if (!newValue) {
+    operator = key;
+  } else {
+    if (!secondOperand == "" && !firstOperand == "") {
+      firstOperand = result;
+      secondOperand = parseInt(inputF.value.replace(/,/g, ""));
+      result = calculateResult(firstOperand, secondOperand, operator);
+      inputF.value = "0";
+      inputF.value = addThousandsSeparator(result);
+      operator = key;
+      newValue = false;
+    }
+    if (secondOperand == "") {
+      if (!firstOperand == "") {
+        secondOperand = parseInt(inputF.value.replace(/,/g, ""));
+        result = calculateResult(firstOperand, secondOperand, operator);
+        inputF.value = "0";
+        inputF.value = addThousandsSeparator(result);
+        operator = key;
+        newValue = false;
+      } else {
+        firstOperand = parseInt(inputF.value.replace(/,/g, ""));
+        operator = key;
+      }
+    }
+  }
+}
 
 inputF.addEventListener("input", function (event) {
   event.target.value = inputF.value.replace(/[^\d.-]/g, "");
@@ -97,65 +141,13 @@ document.addEventListener("keydown", function (event) {
     const buttonId = buttonIDMap[key];
     const button = document.querySelector(`#${buttonId}`);
     button.classList.add("active");
-  }
-  if (key == "+") {
-    operatorPressed = true;
-    if (!newValue) {
-      operator = "+"
-    }
-    else {
-      if (!secondOperand == "" & !firstOperand == "") {
-        firstOperand = result;
-        secondOperand = parseInt(inputF.value.replace(/,/g, ""))
-        result = firstOperand + secondOperand
-        inputF.value = "0"
-        inputF.value = addThousandsSeparator(result)
-        operator = "+"
-        newValue = false;
-      }
-      if (secondOperand == "") {
-        if (!firstOperand == "") {
-          secondOperand = parseInt(inputF.value.replace(/,/g, ""))
-          result = firstOperand + secondOperand
-          inputF.value = "0"
-          inputF.value = addThousandsSeparator(result)
-          operator = "+"
-          newValue = false;
-        }
-        else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "+"; }
-      }
-    }
-  }
-  if (key == "-") {
-    event.preventDefault()
-    operatorPressed = true;
-    if (!newValue) {
-      operator = "+"
-    }
-    else {
-      if (!secondOperand == "" & !firstOperand == "") {
-        firstOperand = result;
-        secondOperand = parseInt(inputF.value.replace(/,/g, ""))
-        result = firstOperand - secondOperand
-        inputF.value = "0"
-        inputF.value = addThousandsSeparator(result)
-        operator = "-"
-        newValue = false;
-      }
-      if (secondOperand == "") {
-        if (!firstOperand == "") {
-          secondOperand = parseInt(inputF.value.replace(/,/g, ""))
-          result = firstOperand - secondOperand
-          inputF.value = "0"
-          inputF.value = addThousandsSeparator(result)
-          operator = "-"
-          newValue = false;
-        }
-        else { firstOperand = parseInt(inputF.value.replace(/,/g, "")); operator = "-"; }
-      }
+    if (key == "+" || key == "-" || key == "*" || key == "/") {
+      handleOperator(key);
+      event.preventDefault();
     }
   }
 })
+
 
 document.addEventListener("keyup", function (event) {
   const key = event.key;
