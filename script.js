@@ -61,7 +61,7 @@ function calculateResult(firstOperand, secondOperand, operator) {
 
 function handleOperator(key) {
   operatorPressed = true;
-  if (!newValue) {
+  if (newValue == false) {
     operator = key;
   } else {
     if (!secondOperand == "" && !firstOperand == "") {
@@ -132,11 +132,13 @@ document.addEventListener("keydown", function (event) {
       inputF.value = addThousandsSeparator(result);
       secondOperand = firstOperand;
       firstOperand = result;
+      newValue = false;
     }
     else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
       result = calculateResult(parseInt(firstOperand), parseInt(secondOperand), operator)
       inputF.value = addThousandsSeparator(result);
       firstOperand = parseInt(result);
+      newValue = false;
     }
   }
   if (key == "Backspace") {
