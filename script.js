@@ -127,6 +127,17 @@ document.addEventListener("keydown", function (event) {
   }
   if (key == "Enter") {
     event.preventDefault();
+    if (!firstOperand == "" && !operator == "" && secondOperand == "") {
+      result = calculateResult(parseInt(firstOperand), parseInt(inputF.value), operator)
+      inputF.value = addThousandsSeparator(result);
+      secondOperand = firstOperand;
+      firstOperand = result;
+    }
+    else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
+      result = calculateResult(parseInt(firstOperand), parseInt(secondOperand), operator)
+      inputF.value = addThousandsSeparator(result);
+      firstOperand = parseInt(result);
+    }
   }
   if (key == "Backspace") {
     inputF.focus()
