@@ -31,6 +31,7 @@ const buttonIDMap = {
 };
 
 const reversebuttonIDMap = {
+  "percentage": "Percent",
   "inverse": "Inverse",
   "squareroot": "Square Root",
   "squared": "Squared",
@@ -94,6 +95,7 @@ buttons.forEach(button => {
       inputF.value = addThousandsSeparator(parseFloat(inputF.value.replace(/,/g, "")) ** 2);
       newValue = true;
       operatorPressed = true;
+      inputF.dispatchEvent(new Event("input"));
     }
     else if (key === "Square Root") {
       inputF.value = addThousandsSeparator(parseFloat(Math.sqrt(inputF.value.replace(/,/g, ""))));
@@ -106,8 +108,18 @@ buttons.forEach(button => {
       console.log("Input value:", inputValue);
       newValue = true;
       operatorPressed = true;
+      inputF.dispatchEvent(new Event("input"));
     }
-
+    else if (key === "Percent") {
+      if (firstOperand == "") {
+        inputF.value = "0"
+        inputF.dispatchEvent(new Event("input"));
+      }
+      else if (operatorPressed) {
+        inputF.value = addThousandsSeparator((firstOperand / 100) * parseFloat(inputF.value.replace(/,/g, "")));
+        inputF.dispatchEvent(new Event("input"));
+      }
+    }
 
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
