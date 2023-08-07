@@ -31,6 +31,7 @@ const buttonIDMap = {
 };
 
 const reversebuttonIDMap = {
+  "plusminus": "+-",
   "ce": "CE",
   "c": "Escape",
   "backspace": "Backspace",
@@ -77,6 +78,16 @@ buttons.forEach(button => {
     }
     else if (key === ".") {
       simulateKeyEvent(".");
+    }
+    else if (key === "+-") {
+      if (inputF.value.startsWith("-")) {
+        inputF.value = inputF.value.slice(1);
+      } else {
+        inputF.value = "-" + inputF.value;
+      }
+      inputF.dispatchEvent(new Event("input"));
+
+      
     }
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
