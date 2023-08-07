@@ -52,6 +52,7 @@ const reversebuttonIDMap = {
 };
 
 buttons.forEach(button => {
+  let timeoutId;
   button.addEventListener("click", function () {
     var buttonId = this.id;
     var  key = reversebuttonIDMap[buttonId];
@@ -68,6 +69,9 @@ buttons.forEach(button => {
       handleNumericKey(key);
       inputF.dispatchEvent(new Event("input"));
     }
+    timeoutId = setTimeout(() => {
+      button.classList.remove("active");
+    }, 30); 
   });
 });
 
