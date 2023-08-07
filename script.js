@@ -31,6 +31,7 @@ const buttonIDMap = {
 };
 
 const reversebuttonIDMap = {
+  "ce": "CE",
   "c": "Escape",
   "backspace": "Backspace",
   "equals": "Enter",
@@ -68,8 +69,13 @@ buttons.forEach(button => {
       simulateKeyEvent("Escape");
     } else if (key.match(/[0-9]/)) {
       handleNumericKey(key);
+    }
+    else if (key === "CE") {
+      inputF.value = ""
       inputF.dispatchEvent(new Event("input"));
     }
+
+
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
     }, 30);
@@ -205,7 +211,7 @@ document.addEventListener("keydown", function (event) {
     }
   }
   if (key == "Backspace") {
-    inputF.value = inputF.value.slice(0, -1); 
+    inputF.value = inputF.value.slice(0, -1);
     inputF.dispatchEvent(new Event("input"));
     document.querySelector("#backspace").classList.add("active");
     event.preventDefault()
