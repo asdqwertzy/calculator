@@ -89,7 +89,7 @@ buttons.forEach(button => {
       inputF.dispatchEvent(new Event("input"));
     }
     else if (key === "Squared") {
-      inputF.value = parseFloat(inputF.value.replace(/,/g, "")) ** 2;
+      inputF.value = addThousandsSeparator(parseFloat(inputF.value.replace(/,/g, "")) ** 2);
     }
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
