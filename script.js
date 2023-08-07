@@ -75,8 +75,9 @@ buttons.forEach(button => {
       inputF.value = ""
       inputF.dispatchEvent(new Event("input"));
     }
-
-
+    else if (key === ".") {
+      simulateKeyEvent(".");
+    }
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
     }, 30);
@@ -245,6 +246,10 @@ document.addEventListener("keydown", function (event) {
   if (key == ".") {
     if (inputF.value.includes(".")) {
       event.preventDefault();
+    }
+    else {
+      inputF.value += key
+      inputF.dispatchEvent(new Event("input"));
     }
   }
   if (key in buttonIDMap) {
