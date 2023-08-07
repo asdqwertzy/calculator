@@ -1,3 +1,4 @@
+const buttons = document.querySelectorAll(".buttons button")
 const inputF = document.querySelector("input")
 var firstOperand = ""
 var secondOperand = ""
@@ -28,6 +29,63 @@ const buttonIDMap = {
   "*": "multiplication",
   "/": "division",
 };
+
+const reversebuttonIDMap = {
+  "c": "Escape",
+  "backspace": "Backspace",
+  "equals": "Enter",
+  "_1": "1",
+  "_2": "2",
+  "_3": "3",
+  "_4": "4",
+  "_5": "5",
+  "_6": "6",
+  "_7": "7",
+  "_8": "8",
+  "_9": "9",
+  "_0": "0",
+  "comma": ".",
+  "plus": "+",
+  "minus": "-",
+  "multiplication": "*",
+  "division": "/"
+};
+
+buttons.forEach(button => {
+  button.addEventListener("click", function () {
+    var buttonId = this.id;
+    var  key = reversebuttonIDMap[buttonId];
+
+    if (key == "+" || key == "-" || key == "*" || key == "/") {
+      handleOperator(key);
+    } else if (key == "Enter") {
+      simulateKeyEvent("Enter")
+    } else if (key === "Backspace") {
+      simulateKeyEvent("Backspace");
+    } else if (key === "Escape") {
+      simulateKeyEvent("Escape");
+    } else if (key.match(/[0-9]/)) {
+      handleNumericKey(key);
+      inputF.dispatchEvent(new Event("input"));
+    }
+  });
+});
+
+function simulateKeyEvent(key) {
+  const event = new KeyboardEvent("keydown", { key: key });
+  document.dispatchEvent(event);
+}
+
+function handleNumericKey(key) {
+  if (operatorPressed) {
+    inputF.value = "";
+    operatorPressed = false;
+    newValue = true;
+  }
+  if (document.activeElement !== inputF) {
+    inputF.value += key
+  }
+}
 
 function addThousandsSeparator(value) {
   value = value.toString();
@@ -128,14 +186,14 @@ document.addEventListener("keydown", function (event) {
   if (key == "Enter") {
     event.preventDefault();
     if (!firstOperand == "" && !operator == "" && secondOperand == "") {
-      result = calculateResult(parseFloat(firstOperand), parseFloat(inputF.value), operator)
+      result = calculateResult(parseFloat(firstOperand), parseFloat(inputF.value.replace(/,/g, "")), operator)
       secondOperand = parseFloat(inputF.value);
       inputF.value = addThousandsSeparator(result);
       firstOperand = result;
       newValue = false;
     }
     else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
-      result = calculateResult(parseFloat(firstOperand), parseFloat(secondOperand), operator)
+      result = calculateResult(parseFloat(firstOperand), parseFloat(inputF.value.replace(/,/g, "")), operator)
       inputF.value = addThousandsSeparator(result);
       firstOperand = parseFloat(result);
       newValue = false;
@@ -156,7 +214,7 @@ document.addEventListener("keydown", function (event) {
     button.classList.add("active");
     if (key == "+" || key == "-" || key == "*" || key == "/") {
       handleOperator(key);
-      event.preventDefault();
+      event.preventDefault()
     }
   }
 })
