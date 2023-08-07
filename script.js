@@ -55,14 +55,15 @@ buttons.forEach(button => {
   let timeoutId;
   button.addEventListener("click", function () {
     var buttonId = this.id;
-    var  key = reversebuttonIDMap[buttonId];
+    var key = reversebuttonIDMap[buttonId];
 
     if (key == "+" || key == "-" || key == "*" || key == "/") {
       handleOperator(key);
     } else if (key == "Enter") {
       simulateKeyEvent("Enter")
     } else if (key === "Backspace") {
-      simulateKeyEvent("Backspace");
+      inputF.value = inputF.value.slice(0, -1); // Remove last character
+      inputF.dispatchEvent(new Event("input"));
     } else if (key === "Escape") {
       simulateKeyEvent("Escape");
     } else if (key.match(/[0-9]/)) {
@@ -71,7 +72,7 @@ buttons.forEach(button => {
     }
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
-    }, 30); 
+    }, 30);
   });
 });
 
@@ -204,8 +205,10 @@ document.addEventListener("keydown", function (event) {
     }
   }
   if (key == "Backspace") {
-    inputF.focus()
+    inputF.value = inputF.value.slice(0, -1); 
+    inputF.dispatchEvent(new Event("input"));
     document.querySelector("#backspace").classList.add("active");
+    event.preventDefault()
   }
   if (key == ".") {
     if (inputF.value.includes(".")) {
