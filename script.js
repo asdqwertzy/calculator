@@ -6,6 +6,7 @@ var operator = ""
 var result = ""
 var operatorPressed = false;
 var newValue = true;
+var memoryValue = 0;
 
 inputF.value = ""
 
@@ -31,6 +32,11 @@ const buttonIDMap = {
 };
 
 const reversebuttonIDMap = {
+  "mc": "MC",
+  "mr": "MR",
+  "mplus": "M+",
+  "mminus": "M-",
+  "ms": "MS",
   "percentage": "Percent",
   "inverse": "Inverse",
   "squareroot": "Square Root",
@@ -120,6 +126,26 @@ buttons.forEach(button => {
         inputF.dispatchEvent(new Event("input"));
       }
     }
+
+    // Memory keys
+    else if (key === "M+") {
+      memoryValue += parseFloat(inputF.value.replace(/,/g, ""));
+    }
+    else if (key === "M-") {
+      memoryValue -= parseFloat(inputF.value.replace(/,/g, ""));
+    }
+    else if (key === "MR") {
+      inputF.value = addThousandsSeparator(memoryValue);
+      inputF.dispatchEvent(new Event("input"));
+    }
+    else if (key === "MC") {
+      memoryValue = 0;
+    }
+    else if (key === "MS") {
+      memoryValue = parseFloat(inputF.value.replace(/,/g, ""));
+    }
+
+
 
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
