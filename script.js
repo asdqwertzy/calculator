@@ -31,6 +31,7 @@ const buttonIDMap = {
 };
 
 const reversebuttonIDMap = {
+  "squared": "Squared",
   "plusminus": "+-",
   "ce": "CE",
   "c": "Escape",
@@ -86,8 +87,9 @@ buttons.forEach(button => {
         inputF.value = "-" + inputF.value;
       }
       inputF.dispatchEvent(new Event("input"));
-
-      
+    }
+    else if (key === "Squared") {
+      inputF.value = parseFloat(inputF.value.replace(/,/g, "")) ** 2;
     }
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
@@ -214,7 +216,7 @@ document.addEventListener("keydown", function (event) {
     if (inputF.value.length >= inputF.maxLength) {
       return;
     }
-  
+
     if (inputF.value.includes(".") && inputF.value === "-" && key === "0") {
       return;
     }
