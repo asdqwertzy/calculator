@@ -31,6 +31,7 @@ const buttonIDMap = {
 };
 
 const reversebuttonIDMap = {
+  "squareroot": "Square Root",
   "squared": "Squared",
   "plusminus": "+-",
   "ce": "CE",
@@ -91,6 +92,12 @@ buttons.forEach(button => {
     else if (key === "Squared") {
       inputF.value = addThousandsSeparator(parseFloat(inputF.value.replace(/,/g, "")) ** 2);
     }
+    else if (key === "Square Root") {
+      inputF.value = addThousandsSeparator(parseFloat(Math.sqrt(inputF.value.replace(/,/g, ""))));
+    }
+
+
+    
     timeoutId = setTimeout(() => {
       button.classList.remove("active");
     }, 30);
