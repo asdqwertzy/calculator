@@ -7,7 +7,7 @@ var result = ""
 var operatorPressed = false;
 var newValue = true;
 
-inputF.value = "0"
+inputF.value = ""
 
 const buttonIDMap = {
   "Escape": "c",
@@ -69,6 +69,7 @@ buttons.forEach(button => {
       simulateKeyEvent("Escape");
     } else if (key.match(/[0-9]/)) {
       handleNumericKey(key);
+      inputF.dispatchEvent(new Event("input"));
     }
     else if (key === "CE") {
       inputF.value = ""
@@ -88,12 +89,21 @@ function simulateKeyEvent(key) {
 }
 
 function handleNumericKey(key) {
+  var inputValue = inputF.value;
+
   if (operatorPressed) {
     inputF.value = "";
     operatorPressed = false;
     newValue = true;
   }
-  if (document.activeElement !== inputF) {
+  if (inputValue.length >= inputF.maxLength) {
+    return;
+  }
+
+  if (!inputValue.includes(".") && inputValue === "-" && key === "0") {
+    return;
+  }
+  else {
     inputF.value += key
   }
 }
@@ -158,6 +168,12 @@ function handleOperator(key) {
   }
 }
 
+
+inputF.addEventListener("click", function () {
+  inputF.selectionStart = inputF.selectionEnd = inputF.value.length;
+});
+
+
 inputF.addEventListener("input", function (event) {
   event.target.value = inputF.value.replace(/[^\d.-]/g, "");
   var decimalCount = event.target.value.split(".").length - 1;
@@ -173,20 +189,30 @@ inputF.addEventListener("input", function (event) {
 });
 
 
+
 document.addEventListener("keydown", function (event) {
   const key = event.key;
   if (key.match(/[0-9]/)) {
+    event.preventDefault();
     if (operatorPressed) {
       inputF.value = ""
       operatorPressed = false;
       newValue = true;
     }
-    if (document.activeElement !== inputF) {
-      inputF.focus()
+    if (inputF.value.length >= inputF.maxLength) {
+      return;
+    }
+  
+    if (inputF.value.includes(".") && inputF.value === "-" && key === "0") {
+      return;
+    }
+    else {
+      inputF.value += key
+      inputF.dispatchEvent(new Event("input"));
     }
   }
   if (key == "Escape") {
-    inputF.value = "0"
+    inputF.value = ""
     firstOperand = ""
     secondOperand = ""
     result = ""
@@ -229,6 +255,9 @@ document.addEventListener("keydown", function (event) {
       handleOperator(key);
       event.preventDefault()
     }
+  }
+  else {
+    event.preventDefault();
   }
 })
 
