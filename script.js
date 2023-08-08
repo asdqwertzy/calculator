@@ -330,9 +330,9 @@ document.addEventListener("keydown", function (event) {
       event.preventDefault()
     }
   }
-  else {
-    event.preventDefault();
-  }
+  // else {
+  //   event.preventDefault();
+  // }
 })
 
 

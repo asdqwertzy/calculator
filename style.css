@@ -3,6 +3,13 @@ body {
 
 }
 
+.expression {
+    margin-left: auto;
+    margin-right: 9px;
+    margin-block-start: 3px;
+    margin-block-end: 3px;
+}
+
 input {
     text-align: right;
     height: 70px;
