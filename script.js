@@ -1,5 +1,6 @@
 const buttons = document.querySelectorAll(".buttons button")
 const inputF = document.querySelector("input")
+const expression = document.querySelector(".expression")
 var firstOperand = ""
 var secondOperand = ""
 var operator = ""
@@ -300,7 +301,7 @@ document.addEventListener("keydown", function (event) {
       newValue = false;
     }
     else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
-      result = calculateResult(parseFloat(firstOperand), parseFloat(inputF.value.replace(/,/g, "")), operator)
+      result = calculateResult(parseFloat(firstOperand), parseFloat(secondOperand), operator)
       inputF.value = addThousandsSeparator(result);
       firstOperand = parseFloat(result);
       newValue = false;
