@@ -299,12 +299,14 @@ document.addEventListener("keydown", function (event) {
       inputF.value = addThousandsSeparator(result);
       firstOperand = result;
       newValue = false;
+      operatorPressed = true;
     }
     else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
-      result = calculateResult(parseFloat(firstOperand), parseFloat(secondOperand), operator)
+      result = calculateResult(parseFloat(inputF.value.replace(/,/g, "")), parseFloat(secondOperand) , operator)
       inputF.value = addThousandsSeparator(result);
       firstOperand = parseFloat(result);
       newValue = false;
+      operatorPressed = true;
     }
   }
   if (key == "Backspace") {
