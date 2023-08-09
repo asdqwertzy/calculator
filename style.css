@@ -75,6 +75,7 @@ button:hover {
 button:active {
     background-color: rgb(230, 230, 230);
 }
+
 button.active {
     background-color: rgb(230, 230, 230);
 }
@@ -112,7 +113,7 @@ button.active {
 
 .blue:hover {
     background-color: rgb(0, 95, 173);
-    
+
 }
 
 .blue:active {
