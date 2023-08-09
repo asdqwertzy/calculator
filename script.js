@@ -92,7 +92,8 @@ buttons.forEach(button => {
       simulateKeyEvent(".");
     }
     else if (key === "+-") {
-      if (inputF.value.startsWith("-")) {
+      if (inputF.value.startsWith("0")) { }
+      else if (inputF.value.startsWith("-")) {
         inputF.value = inputF.value.slice(1);
       } else {
         inputF.value = "-" + inputF.value;
@@ -100,23 +101,31 @@ buttons.forEach(button => {
       inputF.dispatchEvent(new Event("input"));
     }
     else if (key === "Squared") {
+      let originalInput = inputF.value
       inputF.value = addThousandsSeparator(parseFloat(inputF.value.replace(/,/g, "")) ** 2);
       newValue = true;
       operatorPressed = true;
       inputF.dispatchEvent(new Event("input"));
+      expression.textContent = `${originalInput}²`
     }
     else if (key === "Square Root") {
+      let originalInput = inputF.value
       inputF.value = addThousandsSeparator(parseFloat(Math.sqrt(inputF.value.replace(/,/g, ""))));
       newValue = true;
       operatorPressed = true;
+      expression.textContent = `√${originalInput.replace(/,/g, "")}`
     }
     else if (key === "Inverse") {
-      inputValue = parseFloat(inputF.value.replace(/,/g, ""));
-      inputF.value = addThousandsSeparator(1 / inputValue);
-      console.log("Input value:", inputValue);
-      newValue = true;
-      operatorPressed = true;
-      inputF.dispatchEvent(new Event("input"));
+      if (inputF.value.startsWith("0")) { }
+      else {
+        inputValue = parseFloat(inputF.value.replace(/,/g, ""));
+        inputF.value = addThousandsSeparator(1 / inputValue);
+        console.log("Input value:", inputValue);
+        newValue = true;
+        operatorPressed = true;
+        inputF.dispatchEvent(new Event("input"));
+        expression.textContent = `1 / ${inputF.value.replace(/,/g, "")} =`
+      }
     }
     else if (key === "Percent") {
       if (firstOperand == "") {
@@ -126,6 +135,7 @@ buttons.forEach(button => {
       else if (operatorPressed) {
         inputF.value = addThousandsSeparator((firstOperand / 100) * parseFloat(inputF.value.replace(/,/g, "")));
         inputF.dispatchEvent(new Event("input"));
+        expression.textContent = `${firstOperand} ${operator} ${inputF.value.replace(/,/g, "")}`
       }
     }
 
