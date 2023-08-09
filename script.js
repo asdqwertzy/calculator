@@ -9,7 +9,7 @@ var operatorPressed = false;
 var newValue = true;
 var memoryValue = 0;
 
-inputF.value = ""
+inputF.value = "0"
 
 const buttonIDMap = {
   "Escape": "c",
@@ -84,7 +84,8 @@ buttons.forEach(button => {
       inputF.dispatchEvent(new Event("input"));
     }
     else if (key === "CE") {
-      inputF.value = ""
+      inputF.value = "0"
+      expression.textContent = ""
       inputF.dispatchEvent(new Event("input"));
     }
     else if (key === ".") {
@@ -163,7 +164,7 @@ function handleNumericKey(key) {
   var inputValue = inputF.value;
 
   if (operatorPressed) {
-    inputF.value = "";
+    inputF.value = "0";
     operatorPressed = false;
     newValue = true;
   }
@@ -213,6 +214,7 @@ function handleOperator(key) {
   operatorPressed = true;
   if (newValue == false) {
     operator = key;
+    expression.textContent = `${firstOperand} ${operator}`
   } else {
     if (!secondOperand == "" && !firstOperand == "") {
       firstOperand = result;
@@ -222,6 +224,7 @@ function handleOperator(key) {
       inputF.value = addThousandsSeparator(result);
       operator = key;
       newValue = false;
+      expression.textContent = `${firstOperand} ${operator} ${secondOperand}`
     }
     if (secondOperand == "") {
       if (!firstOperand == "") {
@@ -231,9 +234,12 @@ function handleOperator(key) {
         inputF.value = addThousandsSeparator(result);
         operator = key;
         newValue = false;
+        expression.textContent = `${firstOperand} ${operator} ${secondOperand}`
       } else {
         firstOperand = parseFloat(inputF.value.replace(/,/g, ""));
         operator = key;
+        newValue = false;
+        expression.textContent = `${firstOperand} ${operator}`
       }
     }
   }
@@ -266,7 +272,7 @@ document.addEventListener("keydown", function (event) {
   if (key.match(/[0-9]/)) {
     event.preventDefault();
     if (operatorPressed) {
-      inputF.value = ""
+      inputF.value = "0"
       operatorPressed = false;
       newValue = true;
     }
@@ -283,30 +289,39 @@ document.addEventListener("keydown", function (event) {
     }
   }
   if (key == "Escape") {
-    inputF.value = ""
+    inputF.value = "0"
     firstOperand = ""
     secondOperand = ""
     result = ""
     operatorPressed = false
     operator = ""
     newValue = true;
+    expression.textContent = ""
   }
   if (key == "Enter") {
     event.preventDefault();
     if (!firstOperand == "" && !operator == "" && secondOperand == "") {
+      expression.textContent = `${firstOperand} ${operator} ${inputF.value.replace(/,/g, "")} =`
       result = calculateResult(parseFloat(firstOperand), parseFloat(inputF.value.replace(/,/g, "")), operator)
-      secondOperand = parseFloat(inputF.value);
+      secondOperand = parseFloat(inputF.value.replace(/,/g, ""));
       inputF.value = addThousandsSeparator(result);
       firstOperand = result;
       newValue = false;
       operatorPressed = true;
     }
     else if (firstOperand !== "" && !operator == "" && secondOperand !== "") {
-      result = calculateResult(parseFloat(inputF.value.replace(/,/g, "")), parseFloat(secondOperand) , operator)
+      expression.textContent = `${inputF.value.replace(/,/g, "")} ${operator} ${secondOperand} =`
+      result = calculateResult(parseFloat(inputF.value.replace(/,/g, "")), parseFloat(secondOperand), operator)
       inputF.value = addThousandsSeparator(result);
       firstOperand = parseFloat(result);
       newValue = false;
       operatorPressed = true;
+    }
+    else if (operator == "") {
+      if (inputF.value == "") { }
+      else {
+        expression.textContent = `${inputF.value.replace(/,/g, "")} =`
+      }
     }
   }
   if (key == "Backspace") {
